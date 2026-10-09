@@ -1,19 +1,28 @@
-stages:
-  - build
-  - test
-  - deploy
+name: Mon premier pipeline CI/CD
 
-build_job:
-  stage: build
-  script:
-    - echo "Building the project..."
+on:
+  push:
+    branches:
+      - main
 
-test_job:
-  stage: test
-  script:
-    - echo "Running tests..."
+jobs:
+  build_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo "Building the project..."
 
-deploy_job:
-  stage: deploy
-  script:
-    - echo "Deploying the project..."
+  test_job:
+    needs: build_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo "Running tests..."
+
+  deploy_job:
+    needs: test_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying the project..."
+
